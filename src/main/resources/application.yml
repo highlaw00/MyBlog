@@ -1,0 +1,64 @@
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.MySQLDialect
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+
+logging:
+  level:
+    org.hibernate.orm.jdbc.bind: trace
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: default
+  jpa:
+    hibernate:
+      ddl-auto: none
+    database: mysql
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/blogdb
+
+#logging:
+#  level:
+#    root: debug
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: production
+
+  jpa:
+    hibernate:
+      ddl-auto: none
