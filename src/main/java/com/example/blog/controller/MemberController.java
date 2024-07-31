@@ -1,5 +1,6 @@
 package com.example.blog.controller;
 
+import com.example.blog.exception.MemberNotFoundException;
 import com.example.blog.model.Member;
 import com.example.blog.repository.MemberRepository;
 import com.example.blog.utils.ApiResponse;
@@ -29,8 +30,7 @@ public class MemberController {
             responseBody = ApiResponse.createSuccessResponse(member);
             response = ResponseEntity.ok(responseBody);
         } catch (NoSuchElementException exception) {
-            responseBody = ApiResponse.createFailureResponse(null, HttpStatus.NOT_FOUND, exception.getLocalizedMessage());
-            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+            throw new MemberNotFoundException();
         }
 
         return response;
@@ -68,8 +68,7 @@ public class MemberController {
             responseBody = ApiResponse.createSuccessResponse(findMember);
             response = ResponseEntity.ok(ApiResponse.createSuccessResponse(findMember));
         } else {
-            responseBody = ApiResponse.createFailureResponse(null, HttpStatus.NOT_FOUND);
-            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+            throw new MemberNotFoundException();
         }
 
         return response;
@@ -90,8 +89,7 @@ public class MemberController {
             responseBody = ApiResponse.createSuccessResponse(findMember);
             response = ResponseEntity.ok(responseBody);
         } else {
-            responseBody = ApiResponse.createFailureResponse(null, HttpStatus.NOT_FOUND);
-            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+            throw new MemberNotFoundException();
         }
 
         return response;
