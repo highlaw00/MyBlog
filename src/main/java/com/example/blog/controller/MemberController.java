@@ -2,11 +2,12 @@ package com.example.blog.controller;
 
 import com.example.blog.model.Member;
 import com.example.blog.repository.MemberRepository;
+import com.example.blog.utils.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -18,23 +19,28 @@ public class MemberController {
     private final MemberRepository memberRepository;
 
     @GetMapping("/members/{id}")
-    ResponseEntity<Object> findMemberById(@PathVariable("id") Long id) {
+    ResponseEntity<ApiResponse<Member>> findMemberById(@PathVariable("id") Long id) {
         Optional<Member> optionalMember = memberRepository.findById(id);
-        ResponseEntity<Object> response = null;
+        ResponseEntity<ApiResponse<Member>> response = null;
+        ApiResponse<Member> responseBody = null;
+
         try {
             Member member = optionalMember.get();
-            response = ResponseEntity.ok(member);
+            responseBody = ApiResponse.createSuccessResponse(member);
+            response = ResponseEntity.ok(responseBody);
         } catch (NoSuchElementException exception) {
-            response = ResponseEntity.notFound().build();
+            responseBody = ApiResponse.createFailureResponse(null, HttpStatus.NOT_FOUND, exception.getLocalizedMessage());
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
         }
 
         return response;
     }
 
     @GetMapping("/members")
-    ResponseEntity<List<Member>> findMembers() {
+    ResponseEntity<ApiResponse<List<Member>>> findMembers() {
         List<Member> members = memberRepository.findAll();
-        return ResponseEntity.ok(members);
+        ApiResponse<List<Member>> responseBody = ApiResponse.createSuccessResponse(members);
+        return ResponseEntity.ok(responseBody);
     }
 
     /*
@@ -47,9 +53,10 @@ public class MemberController {
         ISSUE: 수정 시 코드의 반복을 막기 위해 패턴 도입이 필요해보임.
      */
     @PatchMapping("/members/{id}")
-    ResponseEntity<Object> updateMemberInfo(@PathVariable("id") Long id, @RequestBody Member member) {
+    ResponseEntity<ApiResponse<Member>> updateMemberInfo(@PathVariable("id") Long id, @RequestBody Member member) {
         Optional<Member> optionalMember = memberRepository.findById(id);
-        ResponseEntity<Object> response = null;
+        ResponseEntity<ApiResponse<Member>> response = null;
+        ApiResponse<Member> responseBody = null;
 
         if (optionalMember.isPresent()) {
             Member findMember = optionalMember.get();
@@ -58,9 +65,11 @@ public class MemberController {
             findMember.setIntro(member.getIntro());
 
             memberRepository.save(findMember);
-            response = ResponseEntity.ok(findMember);
+            responseBody = ApiResponse.createSuccessResponse(findMember);
+            response = ResponseEntity.ok(ApiResponse.createSuccessResponse(findMember));
         } else {
-            response = ResponseEntity.notFound().build();
+            responseBody = ApiResponse.createFailureResponse(null, HttpStatus.NOT_FOUND);
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
         }
 
         return response;
@@ -70,16 +79,19 @@ public class MemberController {
         TODO: 자격증명하여 인가된 사용자만 호출할 수 있도록 해야함
      */
     @DeleteMapping("/members/{id}")
-    ResponseEntity<Object> deleteMember(@PathVariable("id") Long id) {
+    ResponseEntity<ApiResponse<Member>> deleteMember(@PathVariable("id") Long id) {
         Optional<Member> optionalMember = memberRepository.findById(id);
-        ResponseEntity<Object> response = null;
+        ResponseEntity<ApiResponse<Member>> response = null;
+        ApiResponse<Member> responseBody = null;
 
         if (optionalMember.isPresent()) {
             Member findMember = optionalMember.get();
             memberRepository.delete(findMember);
-            response = ResponseEntity.ok(findMember);
+            responseBody = ApiResponse.createSuccessResponse(findMember);
+            response = ResponseEntity.ok(responseBody);
         } else {
-            response = ResponseEntity.notFound().build();
+            responseBody = ApiResponse.createFailureResponse(null, HttpStatus.NOT_FOUND);
+            response = ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
         }
 
         return response;
