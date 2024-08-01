@@ -2,7 +2,7 @@ package com.example.blog.handler;
 
 import com.example.blog.exception.MemberDuplicatedException;
 import com.example.blog.exception.MemberNotFoundException;
-import com.example.blog.model.Member;
+import com.example.blog.model.entity.Member;
 import com.example.blog.utils.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
