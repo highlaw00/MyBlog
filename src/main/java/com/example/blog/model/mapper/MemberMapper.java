@@ -3,6 +3,9 @@ package com.example.blog.model.mapper;
 import com.example.blog.model.dto.MemberDto;
 import com.example.blog.model.entity.Member;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MemberMapper {
     public static Member toEntity(MemberDto dto) {
         Member member = new Member();
@@ -21,8 +24,16 @@ public class MemberMapper {
         dto.setId(member.getId());
         dto.setUsername(member.getUsername());
         dto.setPassword(member.getPassword());
-        dto.setId(member.getId());
+        dto.setIntro(member.getIntro());
 
         return dto;
+    }
+
+    public static List<MemberDto> toDtos(List<Member> members) {
+        List<MemberDto> dtos = new ArrayList<>();
+        for (Member member: members) {
+            dtos.add(MemberMapper.toDto(member));
+        }
+        return dtos;
     }
 }
