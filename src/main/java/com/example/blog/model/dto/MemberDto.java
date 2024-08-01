@@ -1,5 +1,7 @@
 package com.example.blog.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -13,6 +15,7 @@ public class MemberDto {
     @Size(min = 2, max = 50, message = "사용자 이름은 2글자에서 50글자 사이여야 합니다.")
     private String username;
 
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @NotNull(message = "비밀번호가 누락되었습니다.")
     @Size(min = 4, max = 20, message = "비밀번호는 4글자에서 20글자 사이여야 합니다.")
     private String password;

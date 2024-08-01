@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -25,27 +26,17 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping("/{id}")
-    ResponseEntity<ApiResponse<Member>> findMemberById(@PathVariable("id") Long id) {
-        Optional<Member> optionalMember = memberRepository.findById(id);
-        ResponseEntity<ApiResponse<Member>> response = null;
-        ApiResponse<Member> responseBody = null;
-
-        try {
-            Member member = optionalMember.get();
-            responseBody = ApiResponse.createSuccessResponse(member);
-            response = ResponseEntity.ok(responseBody);
-        } catch (NoSuchElementException exception) {
-            throw new MemberNotFoundException();
-        }
-
-        return response;
+    ApiResponse<MemberDto> findMemberById(@PathVariable("id") Long id) {
+        Member member = memberService.find(id);
+        MemberDto dto = MemberMapper.toDto(member);
+        return ApiResponse.createSuccessResponse(dto);
     }
 
     @GetMapping
-    ResponseEntity<ApiResponse<List<Member>>> findMembers() {
+    ApiResponse<List<MemberDto>> findMembers() {
         List<Member> members = memberRepository.findAll();
-        ApiResponse<List<Member>> responseBody = ApiResponse.createSuccessResponse(members);
-        return ResponseEntity.ok(responseBody);
+        List<MemberDto> dtos = MemberMapper.toDtos(members);
+        return ApiResponse.createSuccessResponse(dtos);
     }
 
     /*
@@ -54,33 +45,21 @@ public class MemberController {
         - Ex. 비밀번호를 제외한 필드를 수정
      */
     @PatchMapping("/{id}")
-    ResponseEntity<ApiResponse<MemberDto>> updateMemberInfo(
+    ApiResponse<MemberDto> updateMemberInfo(
             @PathVariable("id") Long id, @Valid @RequestBody MemberDto memberDto
     ) {
-        Member updatedMember = memberService.updateMember(id, memberDto);
+        Member updatedMember = memberService.update(id, memberDto);
         MemberDto responseDto = MemberMapper.toDto(updatedMember);
-        return ResponseEntity.ok(ApiResponse.createSuccessResponse(responseDto));
+        return ApiResponse.createSuccessResponse(responseDto);
     }
 
     /*
         TODO: 자격증명하여 인가된 사용자만 호출할 수 있도록 해야함
      */
     @DeleteMapping("/{id}")
-    ResponseEntity<ApiResponse<Member>> deleteMember(@PathVariable("id") Long id) {
-        Optional<Member> optionalMember = memberRepository.findById(id);
-        ResponseEntity<ApiResponse<Member>> response = null;
-        ApiResponse<Member> responseBody = null;
-
-        if (optionalMember.isPresent()) {
-            Member findMember = optionalMember.get();
-            memberRepository.delete(findMember);
-            responseBody = ApiResponse.createSuccessResponse(findMember);
-            response = ResponseEntity.ok(responseBody);
-        } else {
-            throw new MemberNotFoundException();
-        }
-
-        return response;
-
+    ApiResponse<MemberDto> deleteMember(@PathVariable("id") Long id) {
+        Member deletedMember = memberService.delete(id);
+        MemberDto dto = MemberMapper.toDto(deletedMember);
+        return ApiResponse.createSuccessResponse(dto);
     }
 }
