@@ -6,6 +6,7 @@ import com.example.blog.model.entity.Member;
 import com.example.blog.utils.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -21,5 +22,12 @@ public class MemberExceptionHandler {
     public ResponseEntity<ApiResponse<Member>> handleMemberNotFound(MemberNotFoundException e) {
         ApiResponse<Member> responseBody = ApiResponse.createFailureResponse(null, HttpStatus.NOT_FOUND, e.getMessage());
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseBody);
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ApiResponse<Member>> handleValidationViolation(MethodArgumentNotValidException e) {
+        String simpleErrorMessage = e.getBindingResult().getFieldErrors().get(0).getDefaultMessage();
+        ApiResponse<Member> responseBody = ApiResponse.createFailureResponse(null, HttpStatus.BAD_REQUEST, simpleErrorMessage);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responseBody);
     }
 }
