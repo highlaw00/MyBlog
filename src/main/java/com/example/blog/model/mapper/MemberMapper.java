@@ -5,6 +5,7 @@ import com.example.blog.model.entity.Member;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class MemberMapper {
     public static Member toEntity(MemberDto dto) {
@@ -30,10 +31,6 @@ public class MemberMapper {
     }
 
     public static List<MemberDto> toDtos(List<Member> members) {
-        List<MemberDto> dtos = new ArrayList<>();
-        for (Member member: members) {
-            dtos.add(MemberMapper.toDto(member));
-        }
-        return dtos;
+        return members.stream().map(MemberMapper::toDto).toList();
     }
 }
