@@ -27,8 +27,7 @@ public class MemberController {
 
     @GetMapping("/{id}")
     ApiResponse<MemberDto> findMemberById(@PathVariable("id") Long id) {
-        Member member = memberService.find(id);
-        MemberDto dto = MemberMapper.toDto(member);
+        MemberDto dto = memberService.findById(id);
         return ApiResponse.createSuccessResponse(dto);
     }
 
@@ -48,8 +47,7 @@ public class MemberController {
     ApiResponse<MemberDto> updateMemberInfo(
             @PathVariable("id") Long id, @Valid @RequestBody MemberDto memberDto
     ) {
-        Member updatedMember = memberService.update(id, memberDto);
-        MemberDto responseDto = MemberMapper.toDto(updatedMember);
+        MemberDto responseDto = memberService.update(id, memberDto);
         return ApiResponse.createSuccessResponse(responseDto);
     }
 
@@ -58,8 +56,7 @@ public class MemberController {
      */
     @DeleteMapping("/{id}")
     ApiResponse<MemberDto> deleteMember(@PathVariable("id") Long id) {
-        Member deletedMember = memberService.delete(id);
-        MemberDto dto = MemberMapper.toDto(deletedMember);
+        MemberDto dto = memberService.delete(id);
         return ApiResponse.createSuccessResponse(dto);
     }
 }
