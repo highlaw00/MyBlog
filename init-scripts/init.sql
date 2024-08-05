@@ -28,6 +28,10 @@ CREATE TABLE comment (
                          CONSTRAINT comment_article_fk FOREIGN KEY (article_id) REFERENCES article(article_id) ON DELETE CASCADE
 );
 
-INSERT INTO member(username, password, intro) VALUES('test1', '12345', '안녕하세요. 테스트1입니다.');
-INSERT INTO member(username, password, intro) VALUES('test2', '12345', '안녕하세요. 테스트2입니다.');
-INSERT INTO member(username, password, intro) VALUES('test3', '12345', '안녕하세요. 테스트3입니다.');
+INSERT INTO member(username, password, intro) VALUES('test1', '12345', 'This is test1');
+INSERT INTO member(username, password, intro) VALUES('test2', '12345', 'This is test2');
+INSERT INTO member(username, password, intro) VALUES('test3', '12345', 'This is test3');
+
+INSERT INTO article(member_id, title, contents) VALUES(1, 'Article1: this is first article.', 'This is the contents of the first article.');
+INSERT INTO article(member_id, title, contents) VALUES(2, 'Article2: this is first article.', 'This is the contents of the first article.');
+INSERT INTO article(member_id, title, contents) VALUES(3, 'Article3: this is first article.', 'This is the contents of the first article.');
