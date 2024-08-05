@@ -1,12 +1,15 @@
 package com.example.blog.model.entity;
 
+import com.example.blog.model.dto.ArticleDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "article")
 @Getter
+@Setter
 @NoArgsConstructor
 public class Article {
     @Id
@@ -40,5 +43,13 @@ public class Article {
         this.member = member;
         this.title = title;
         this.contents = contents;
+    }
+
+    /**
+     * 작성자가 변경될 일이 없기 때문에 member는 변경하지 않음
+     */
+    public void updateTitleAndContents(ArticleDto dto) {
+        this.title = dto.getTitle();
+        this.contents = dto.getContents();
     }
 }
