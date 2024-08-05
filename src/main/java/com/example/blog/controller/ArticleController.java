@@ -3,6 +3,7 @@ package com.example.blog.controller;
 import com.example.blog.model.dto.ArticleDto;
 import com.example.blog.service.ArticleService;
 import com.example.blog.utils.ApiResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,17 @@ public class ArticleController {
     @GetMapping("/{id}")
     public ApiResponse<ArticleDto> findOne(@PathVariable(name = "id") Long id) {
         return ApiResponse.createSuccessResponse(articleService.findById(id));
+    }
+
+    @DeleteMapping("/{id}")
+    public ApiResponse<ArticleDto> remove(@PathVariable(name = "id") Long id) {
+        return ApiResponse.createSuccessResponse(articleService.delete(id));
+    }
+
+    @PatchMapping("/{id}")
+    public ApiResponse<ArticleDto> updateOne(@PathVariable(name = "id") Long id, @Valid @RequestBody ArticleDto dto) {
+        dto.setId(id);
+        return ApiResponse.createSuccessResponse(articleService.update(dto));
     }
 
     @PostMapping()
