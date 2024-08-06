@@ -1,10 +1,15 @@
 package com.example.blog.controller;
 
+import com.example.blog.model.dto.ArticleResponseDto;
+import com.example.blog.model.dto.CommentDto;
+import com.example.blog.model.dto.CommentResponseDto;
 import com.example.blog.model.dto.MemberDto;
 import com.example.blog.exception.MemberNotFoundException;
 import com.example.blog.model.entity.Member;
 import com.example.blog.model.mapper.MemberMapper;
 import com.example.blog.repository.MemberRepository;
+import com.example.blog.service.ArticleService;
+import com.example.blog.service.CommentService;
 import com.example.blog.service.MemberService;
 import com.example.blog.utils.ApiResponse;
 import jakarta.validation.Valid;
@@ -24,18 +29,20 @@ public class MemberController {
 
     private final MemberRepository memberRepository;
     private final MemberService memberService;
-
-    @GetMapping("/{id}")
-    ApiResponse<MemberDto> findMemberById(@PathVariable("id") Long id) {
-        MemberDto dto = memberService.findById(id);
-        return ApiResponse.createSuccessResponse(dto);
-    }
+    private final ArticleService articleService;
+    private final CommentService commentService;
 
     @GetMapping
     ApiResponse<List<MemberDto>> findMembers() {
         List<Member> members = memberRepository.findAll();
         List<MemberDto> dtos = MemberMapper.toDtos(members);
         return ApiResponse.createSuccessResponse(dtos);
+    }
+
+    @GetMapping("/{id}")
+    ApiResponse<MemberDto> findMemberById(@PathVariable("id") Long id) {
+        MemberDto dto = memberService.findById(id);
+        return ApiResponse.createSuccessResponse(dto);
     }
 
     /*
@@ -58,5 +65,17 @@ public class MemberController {
     ApiResponse<MemberDto> deleteMember(@PathVariable("id") Long id) {
         MemberDto dto = memberService.delete(id);
         return ApiResponse.createSuccessResponse(dto);
+    }
+
+    @GetMapping("/{id}/articles")
+    public ApiResponse<List<ArticleResponseDto>> findArticlesOnMember(@PathVariable(name = "id") Long id) {
+        List<ArticleResponseDto> result = articleService.findAll(id);
+        return ApiResponse.createSuccessResponse(result);
+    }
+
+    @GetMapping("/{id}/comments")
+    public ApiResponse<List<CommentResponseDto>> findCommentsOnMember(@PathVariable(name = "id") Long id) {
+        List<CommentResponseDto> comments = commentService.findAllOnMember(id);
+        return ApiResponse.createSuccessResponse(comments);
     }
 }
