@@ -1,6 +1,7 @@
 package com.example.blog.model.mapper;
 
 import com.example.blog.model.dto.MemberDto;
+import com.example.blog.model.dto.MemberEmbeddedResponseDto;
 import com.example.blog.model.entity.Member;
 
 import java.util.ArrayList;
@@ -35,6 +36,15 @@ public class MemberMapper {
                 member.getIntro()
         );
 
+    }
+
+    public static MemberEmbeddedResponseDto toEmbeddedResponseDto(Member member) {
+
+        if (member == null) {
+            return null;
+        }
+
+        return new MemberEmbeddedResponseDto(member.getId(), member.getUsername());
     }
 
     public static List<MemberDto> toDtos(List<Member> members) {
