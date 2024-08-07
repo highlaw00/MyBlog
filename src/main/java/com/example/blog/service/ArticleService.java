@@ -38,8 +38,12 @@ public class ArticleService {
         return articles.stream().map(ArticleMapper::toResponseDto).toList();
     }
 
-    public ArticleResponseDto findById(Long id) {
-        Article article = articleRepository.findById(id).orElseThrow(ArticleNotFoundException::new);
+    public Article findById(Long id) {
+        return this.find(id);
+    }
+
+    public ArticleResponseDto findByIdAsDto(Long id) {
+        Article article = this.find(id);
         return ArticleMapper.toResponseDto(article);
     }
 
@@ -61,7 +65,7 @@ public class ArticleService {
     }
 
     private MemberDto getMemberDto(ArticleDto dto) {
-        return memberService.findById(dto.getMemberId());
+        return memberService.findByIdAsDto(dto.getMemberId());
     }
 
     private Article find(Long id) {
