@@ -1,5 +1,7 @@
 package com.example.blog.model.entity;
 
+import com.example.blog.model.dto.CommentPatchRequestDto;
+import com.example.blog.model.dto.CommentPostRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,4 +26,8 @@ public class Comment extends BaseEntity {
     private Article article;
 
     private String contents;
+
+    public void updateContents(CommentPatchRequestDto dto) {
+        this.contents = dto.getContents();
+    }
 }
