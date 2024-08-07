@@ -24,14 +24,23 @@ public class MemberService {
         }
     }
 
-    public Member delete(Long id) {
+    public MemberDto delete(Long id) {
         Member member = this.find(id);
         memberRepository.deleteById(member.getId());
-        return member;
+        return MemberMapper.toDto(member);
     }
 
-    public Member find(Long id) {
-        return memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
+    public Member findById(Long id) {
+        return this.find(id);
+    }
+
+    public MemberDto findByIdAsDto(Long id) {
+        Member findMember = this.find(id);
+        return MemberMapper.toDto(findMember);
+    }
+
+    public MemberDto findByName(String username) {
+        return MemberMapper.toDto(memberRepository.findByUsername(username));
     }
 
     public MemberDto post(MemberDto dto) {
@@ -45,13 +54,17 @@ public class MemberService {
         return dto;
     }
 
-    public Member update(Long id, MemberDto memberDto) {
+    public MemberDto update(Long id, MemberDto memberDto) {
         Member member = this.find(id);
 
         member.setUsername(memberDto.getUsername());
         member.setPassword(memberDto.getPassword());
         member.setIntro(memberDto.getIntro());
 
-        return member;
+        return MemberMapper.toDto(memberRepository.save(member));
+    }
+
+    private Member find(Long id) {
+        return memberRepository.findById(id).orElseThrow(MemberNotFoundException::new);
     }
 }

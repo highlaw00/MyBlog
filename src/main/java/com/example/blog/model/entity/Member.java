@@ -1,14 +1,20 @@
 package com.example.blog.model.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "member")
 @Getter
 @Setter
-public class Member {
+@NoArgsConstructor
+public class Member extends BaseEntity {
     @Id
     @Column(name = "member_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,4 +22,14 @@ public class Member {
     String username;
     String password;
     String intro;
+
+    @OneToMany(mappedBy = "member")
+    List<Article> articles = new ArrayList<>();
+
+    public Member(Long id, String username, String password, String intro) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+        this.intro = intro;
+    }
 }
