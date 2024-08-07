@@ -6,6 +6,14 @@ import com.example.blog.model.entity.Member;
 
 public class CommentMapper {
 
+    public static Comment toEntity(CommentPostRequestDto dto) {
+        Comment comment = new Comment();
+
+        comment.setContents(dto.getContents());
+
+        return comment;
+    }
+
     public static CommentDto toDto(Comment comment) {
         CommentDto dto = new CommentDto();
 
