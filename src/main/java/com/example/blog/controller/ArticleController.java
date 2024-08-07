@@ -23,7 +23,7 @@ public class ArticleController {
 
     @GetMapping("/{id}")
     public ApiResponse<ArticleResponseDto> findOne(@PathVariable(name = "id") Long id) {
-        return ApiResponse.createSuccessResponse(articleService.findById(id));
+        return ApiResponse.createSuccessResponse(articleService.findByIdAsDto(id));
     }
 
     @DeleteMapping("/{id}")

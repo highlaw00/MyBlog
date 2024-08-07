@@ -41,7 +41,7 @@ public class MemberController {
 
     @GetMapping("/{id}")
     ApiResponse<MemberDto> findMemberById(@PathVariable("id") Long id) {
-        MemberDto dto = memberService.findById(id);
+        MemberDto dto = memberService.findByIdAsDto(id);
         return ApiResponse.createSuccessResponse(dto);
     }
 
