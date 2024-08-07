@@ -30,7 +30,11 @@ public class MemberService {
         return MemberMapper.toDto(member);
     }
 
-    public MemberDto findById(Long id) {
+    public Member findById(Long id) {
+        return this.find(id);
+    }
+
+    public MemberDto findByIdAsDto(Long id) {
         Member findMember = this.find(id);
         return MemberMapper.toDto(findMember);
     }
