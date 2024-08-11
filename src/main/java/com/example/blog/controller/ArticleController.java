@@ -21,6 +21,11 @@ public class ArticleController {
     private final ArticleService articleService;
     private final CommentService commentService;
 
+    @GetMapping
+    public ApiResponse<List<ArticleResponseDto>> findAll() {
+        return ApiResponse.createSuccessResponse(articleService.findAll());
+    }
+
     @GetMapping("/{id}")
     public ApiResponse<ArticleResponseDto> findOne(@PathVariable(name = "id") Long id) {
         return ApiResponse.createSuccessResponse(articleService.findByIdAsDto(id));
