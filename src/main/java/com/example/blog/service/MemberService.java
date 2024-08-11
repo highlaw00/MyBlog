@@ -8,6 +8,7 @@ import com.example.blog.model.mapper.MemberMapper;
 import com.example.blog.repository.MemberRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final PasswordEncoder passwordEncoder;
 
     public void checkDuplication(MemberDto dto) {
         Member member = memberRepository.findByUsername(dto.getUsername());
@@ -44,6 +46,8 @@ public class MemberService {
     }
 
     public MemberDto post(MemberDto dto) {
+        String rawPassword = dto.getPassword();
+        dto.setPassword(passwordEncoder.encode(rawPassword));
         Member member = MemberMapper.toEntity(dto);
         member = memberRepository.save(member);
         // debate
