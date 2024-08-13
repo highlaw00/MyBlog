@@ -21,17 +21,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String userName, password = null;
-        List<GrantedAuthority> authorities = null;
         Member member = memberRepository.findByUsername(username);
         if (member == null) {
             throw new UsernameNotFoundException("자격증명 인증 과정에서 사용자를 찾을 수 없습니다.");
-        } else {
-            userName = member.getUsername();
-            password = member.getPassword();
-            authorities = new ArrayList<>();
         }
 
-        return new User(userName, password, authorities);
+        return new CustomUserDetails(member);
     }
 }
