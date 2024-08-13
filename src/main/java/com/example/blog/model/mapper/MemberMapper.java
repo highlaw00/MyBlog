@@ -2,6 +2,7 @@ package com.example.blog.model.mapper;
 
 import com.example.blog.model.dto.MemberDto;
 import com.example.blog.model.dto.MemberEmbeddedResponseDto;
+import com.example.blog.model.dto.RegisterDto;
 import com.example.blog.model.entity.Member;
 
 import java.util.ArrayList;
@@ -21,6 +22,15 @@ public class MemberMapper {
                 dto.getPassword(),
                 dto.getIntro()
         );
+    }
+
+    public static Member toEntity(RegisterDto dto) {
+
+        if (dto == null) {
+            return null;
+        }
+
+        return new Member(dto.getUsername(), dto.getPassword());
     }
 
     public static MemberDto toDto(Member member) {
