@@ -9,6 +9,7 @@ CREATE TABLE member (
                         username VARCHAR(50) NOT NULL,
                         password VARCHAR(255) NOT NULL,
                         intro VARCHAR(255),
+                        role VARCHAR(255) NOT NULL,
                         created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                         updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -50,12 +51,15 @@ CREATE TABLE comment (
 -- INSERT INTO comment(member_id, article_id, contents) VALUES(3, 2, 'Comment about article2 - by member 3');
 
 -- 회원 데이터 삽입
-INSERT INTO member (username, password, intro) VALUES
-                                                   ('user1', 'password1', 'intro for user1'),
-                                                   ('user2', 'password2', 'intro for user2'),
-                                                   ('user3', 'password3', 'intro for user3'),
-                                                   ('user4', 'password4', 'intro for user4'),
-                                                   ('user5', 'password5', 'intro for user5');
+-- 테스트 회원 비밀번호: (password1, password2, ..., password5) user명 뒤의 숫자를 붙이면 됩니다
+-- 테스트 어드민 비밀번호: password
+INSERT INTO member (username, password, intro, role) VALUES
+                                                   ('user1', '$2a$10$F.giPc.tGJ91y02jpz7//.y4mAQhQqgg1JiTuMaF/fc2k8mTM1MqC', 'intro for user1', 'ROLE_USER'),
+                                                   ('user2', '$2a$10$hzM6lHtGhLnjszqOskRfFuCQZOjKY2iVILzVnHOi0ET09lAo48Vo6', 'intro for user2', 'ROLE_USER'),
+                                                   ('user3', '$2a$10$3EK6idjy7pFyLgLzJR1aw.c/iGthMAyU9eY5dYmLBxIYf2UYsFrKi', 'intro for user3', 'ROLE_USER'),
+                                                   ('user4', '$2a$10$UDb3iE6WO6vTXsXg9y50E.SVrzwdsFKtfWaWJnX9KO1XnMSb9Ytq.', 'intro for user4', 'ROLE_USER'),
+                                                   ('user5', '$2a$10$I5PFMZmZW4LsWgBlX1tnGeE5KohnaoNrtx0fBwAat5Q12gGZfDzyy', 'intro for user5', 'ROLE_USER'),
+                                                   ('admin', '$2a$10$xoqLR5fXki8ddsCnrYqhH.FtnqTHLOQ3yjECrCPme9IUsmxKgaJiC', 'intro for admin', 'ROLE_ADMIN');
 
 -- 게시글 데이터 삽입
 DELIMITER $$
