@@ -1,5 +1,6 @@
 package com.example.blog.model.entity;
 
+import com.example.blog.model.enums.MemberRole;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,9 @@ public class Member extends BaseEntity {
     String password;
     String intro;
 
+    @Enumerated(value = EnumType.STRING)
+    MemberRole role;
+
     @OneToMany(mappedBy = "member")
     List<Article> articles = new ArrayList<>();
 
@@ -31,5 +35,10 @@ public class Member extends BaseEntity {
         this.username = username;
         this.password = password;
         this.intro = intro;
+    }
+
+    public Member(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 }
