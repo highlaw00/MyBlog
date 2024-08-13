@@ -1,6 +1,7 @@
 package com.example.blog.controller;
 
 import com.example.blog.model.dto.MemberDto;
+import com.example.blog.model.dto.RegisterDto;
 import com.example.blog.service.MemberService;
 import com.example.blog.utils.ApiResponse;
 import jakarta.validation.Valid;
@@ -17,8 +18,7 @@ public class LoginController {
     private final MemberService memberService;
 
     @PostMapping("/register")
-    ApiResponse<MemberDto> createMember(@Valid @RequestBody MemberDto dto) {
-        memberService.checkDuplication(dto);
+    ApiResponse<MemberDto> createMember(@Valid @RequestBody RegisterDto dto) {
         MemberDto savedMemberDto = memberService.post(dto);
         return ApiResponse.createSuccessResponse(savedMemberDto, HttpStatus.CREATED);
     }
