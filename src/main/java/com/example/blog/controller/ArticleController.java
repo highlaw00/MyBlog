@@ -1,8 +1,9 @@
 package com.example.blog.controller;
 
-import com.example.blog.model.dto.ArticleDto;
-import com.example.blog.model.dto.ArticleResponseDto;
-import com.example.blog.model.dto.CommentResponseDto;
+import com.example.blog.model.dto.article.ArticlePostRequestDto;
+import com.example.blog.model.dto.article.ArticleResponseDto;
+import com.example.blog.model.dto.article.ArticleUpdateRequestDto;
+import com.example.blog.model.dto.comment.CommentResponseDto;
 import com.example.blog.service.ArticleService;
 import com.example.blog.service.CommentService;
 import com.example.blog.utils.ApiResponse;
@@ -28,7 +29,7 @@ public class ArticleController {
 
     @GetMapping("/{id}")
     public ApiResponse<ArticleResponseDto> findOne(@PathVariable(name = "id") Long id) {
-        return ApiResponse.createSuccessResponse(articleService.findByIdAsDto(id));
+        return ApiResponse.createSuccessResponse(articleService.findByIdAsResponseDto(id));
     }
 
     @DeleteMapping("/{id}")
@@ -37,14 +38,13 @@ public class ArticleController {
     }
 
     @PatchMapping("/{id}")
-    public ApiResponse<ArticleResponseDto> updateOne(@PathVariable(name = "id") Long id, @Valid @RequestBody ArticleDto dto) {
-        dto.setId(id);
-        return ApiResponse.createSuccessResponse(articleService.update(dto));
+    public ApiResponse<ArticleResponseDto> updateOne(@PathVariable(name = "id") Long id, @Valid @RequestBody ArticleUpdateRequestDto requestDto) {
+        return ApiResponse.createSuccessResponse(articleService.update(id, requestDto));
     }
 
     @PostMapping()
-    public ApiResponse<ArticleResponseDto> write(@RequestBody ArticleDto dto) {
-        return ApiResponse.createSuccessResponse(articleService.post(dto), HttpStatus.CREATED);
+    public ApiResponse<ArticleResponseDto> write(@RequestBody ArticlePostRequestDto requestDto) {
+        return ApiResponse.createSuccessResponse(articleService.post(requestDto), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}/comments")
