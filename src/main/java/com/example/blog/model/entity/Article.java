@@ -25,13 +25,7 @@ public class Article extends BaseEntity {
 
     private String contents;
 
-    public Article(
-            Long id, String title, String contents
-    ) {
-        this.id = id;
-        this.title = title;
-        this.contents = contents;
-    }
+    private Long views;
 
     public Article (
             Long id,
@@ -43,6 +37,7 @@ public class Article extends BaseEntity {
         this.member = member;
         this.title = title;
         this.contents = contents;
+        this.views = 0L;
     }
 
     /**
@@ -51,5 +46,9 @@ public class Article extends BaseEntity {
     public void updateTitleAndContents(ArticleUpdateRequestDto dto) {
         this.title = dto.getTitle();
         this.contents = dto.getContents();
+    }
+
+    public void increaseView() {
+        this.views += 1;
     }
 }
