@@ -1,8 +1,10 @@
 package com.example.blog.model.mapper;
 
-import com.example.blog.model.dto.*;
+import com.example.blog.model.dto.article.ArticleEmbeddedResponseDto;
+import com.example.blog.model.dto.comment.CommentPostRequestDto;
+import com.example.blog.model.dto.comment.CommentResponseDto;
+import com.example.blog.model.dto.member.MemberEmbeddedResponseDto;
 import com.example.blog.model.entity.Comment;
-import com.example.blog.model.entity.Member;
 
 public class CommentMapper {
 
@@ -12,18 +14,6 @@ public class CommentMapper {
         comment.setContents(dto.getContents());
 
         return comment;
-    }
-
-    public static CommentDto toDto(Comment comment) {
-        CommentDto dto = new CommentDto();
-
-        dto.setId(comment.getId());
-        dto.setContents(comment.getContents());
-
-        MemberDto memberDto = MemberMapper.toDto(comment.getMember());
-        dto.setMemberDto(memberDto);
-
-        return dto;
     }
 
     public static CommentResponseDto toResponseDto(Comment comment) {
