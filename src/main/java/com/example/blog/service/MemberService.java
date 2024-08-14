@@ -1,9 +1,10 @@
 package com.example.blog.service;
 
 import com.example.blog.exception.MemberDuplicatedException;
-import com.example.blog.model.dto.MemberDto;
 import com.example.blog.exception.MemberNotFoundException;
-import com.example.blog.model.dto.RegisterDto;
+import com.example.blog.model.dto.member.MemberResponseDto;
+import com.example.blog.model.dto.member.MemberUpdateRequestDto;
+import com.example.blog.model.dto.member.MemberPostRequestDto;
 import com.example.blog.model.entity.Member;
 import com.example.blog.model.enums.MemberRole;
 import com.example.blog.model.mapper.MemberMapper;
@@ -13,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 @Transactional
@@ -21,26 +24,28 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public MemberDto delete(Long id) {
+    public MemberResponseDto delete(Long id) {
         Member member = this.find(id);
         memberRepository.deleteById(member.getId());
-        return MemberMapper.toDto(member);
+        return MemberMapper.toResponseDto(member);
+    }
+
+    // TODO: 페이징 적용
+    public List<MemberResponseDto> findAll() {
+        List<Member> members = memberRepository.findAll();
+        return members.stream().map(MemberMapper::toResponseDto).toList();
     }
 
     public Member findById(Long id) {
         return this.find(id);
     }
 
-    public MemberDto findByIdAsDto(Long id) {
+    public MemberResponseDto findByIdAsDto(Long id) {
         Member findMember = this.find(id);
-        return MemberMapper.toDto(findMember);
+        return MemberMapper.toResponseDto(findMember);
     }
 
-    public MemberDto findByName(String username) {
-        return MemberMapper.toDto(memberRepository.findByUsername(username));
-    }
-
-    public MemberDto post(RegisterDto dto) {
+    public MemberResponseDto post(MemberPostRequestDto dto) {
         String username = dto.getUsername();
         String rawPassword = dto.getPassword();
 
@@ -57,17 +62,17 @@ public class MemberService {
         member.setRole(MemberRole.ROLE_USER);
         member = memberRepository.save(member);
 
-        return MemberMapper.toDto(member);
+        return MemberMapper.toResponseDto(member);
     }
 
-    public MemberDto update(Long id, MemberDto memberDto) {
+    public MemberResponseDto update(Long id, MemberUpdateRequestDto memberDto) {
         Member member = this.find(id);
+        String encodedPassword = passwordEncoder.encode(memberDto.getPassword());
 
-        member.setUsername(memberDto.getUsername());
-        member.setPassword(memberDto.getPassword());
+        member.setPassword(encodedPassword);
         member.setIntro(memberDto.getIntro());
 
-        return MemberMapper.toDto(memberRepository.save(member));
+        return MemberMapper.toResponseDto(memberRepository.save(member));
     }
 
     private Member find(Long id) {
