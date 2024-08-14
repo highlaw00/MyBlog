@@ -1,20 +1,14 @@
 package com.example.blog.controller;
 
-import com.example.blog.exception.ArticleNotFoundException;
-import com.example.blog.model.dto.*;
-import com.example.blog.model.entity.Article;
-import com.example.blog.model.mapper.ArticleMapper;
-import com.example.blog.repository.ArticleRepository;
-import com.example.blog.repository.CommentRepository;
-import com.example.blog.service.ArticleService;
+import com.example.blog.model.dto.comment.CommentPatchRequestDto;
+import com.example.blog.model.dto.comment.CommentPostRequestDto;
+import com.example.blog.model.dto.comment.CommentResponseDto;
 import com.example.blog.service.CommentService;
 import com.example.blog.utils.ApiResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,9 +23,9 @@ public class CommentController {
     }
 
     @GetMapping("/comments/{id}")
-    public ApiResponse<CommentResponseDto> findOne(@PathVariable(name = ("id")) Long id) {
-        CommentResponseDto dto = commentService.findById(id);
-        return ApiResponse.createSuccessResponse(dto);
+    public ApiResponse<CommentResponseDto> findOne(@PathVariable(name = "id") Long id) {
+        CommentResponseDto responseDto = commentService.findById(id);
+        return ApiResponse.createSuccessResponse(responseDto);
     }
 
     @PatchMapping("/comments/{id}")
