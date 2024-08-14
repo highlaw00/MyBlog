@@ -1,12 +1,10 @@
 package com.example.blog.model.entity;
 
-import com.example.blog.model.dto.ArticleDto;
+import com.example.blog.model.dto.article.ArticleUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @Table(name = "article")
@@ -50,7 +48,7 @@ public class Article extends BaseEntity {
     /**
      * 작성자가 변경될 일이 없기 때문에 member는 변경하지 않음
      */
-    public void updateTitleAndContents(ArticleDto dto) {
+    public void updateTitleAndContents(ArticleUpdateRequestDto dto) {
         this.title = dto.getTitle();
         this.contents = dto.getContents();
     }
