@@ -28,7 +28,7 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}")
-    public ApiResponse<ArticleResponseDto> findOne(@PathVariable(name = "id") Long id) {
+    public ApiResponse<ArticleResponseDto> readArticle(@PathVariable(name = "id") Long id) {
         return ApiResponse.createSuccessResponse(articleService.findByIdAsResponseDto(id));
     }
 
