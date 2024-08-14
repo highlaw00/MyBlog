@@ -19,6 +19,7 @@ CREATE TABLE article (
                          member_id BIGINT NOT NULL,
                          title VARCHAR(255) NOT NULL,
                          contents TEXT NOT NULL,
+                         views INT UNSIGNED DEFAULT 0,
                          created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
                          updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                          CONSTRAINT article_member_fk FOREIGN KEY (member_id) REFERENCES member(member_id) ON DELETE CASCADE
