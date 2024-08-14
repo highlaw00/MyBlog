@@ -20,16 +20,7 @@ public class ArticleMapper {
             return null;
         }
 
-        MemberResponseDto memberResponseDto = MemberMapper.toResponseDto(article.getMember());
-
-        return new ArticleResponseDto(
-                article.getId(),
-                memberResponseDto,
-                article.getTitle(),
-                article.getContents(),
-                article.getCreatedAt(),
-                article.getUpdatedAt()
-        );
+        return new ArticleResponseDto(article);
     }
 
     public static ArticleEmbeddedResponseDto toEmbeddedResponseDto(Article article) {
@@ -37,11 +28,6 @@ public class ArticleMapper {
             return null;
         }
 
-        return new ArticleEmbeddedResponseDto(
-                article.getId(),
-                article.getTitle(),
-                article.getCreatedAt(),
-                article.getUpdatedAt()
-        );
+        return new ArticleEmbeddedResponseDto(article);
     }
 }
