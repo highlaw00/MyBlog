@@ -42,8 +42,13 @@ public class ArticleService {
         return this.find(id);
     }
 
+    /**
+     * 게시물 조회 시 조회수가 증가합니다.
+     */
     public ArticleResponseDto findByIdAsResponseDto(Long id) {
         Article article = this.find(id);
+        article.increaseView();
+        articleRepository.saveAndFlush(article);
         return ArticleMapper.toResponseDto(article);
     }
 
