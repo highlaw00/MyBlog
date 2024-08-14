@@ -1,5 +1,6 @@
 package com.example.blog.model.dto.article;
 
+import com.example.blog.model.entity.Article;
 import lombok.Data;
 
 import java.time.LocalDateTime;
@@ -12,13 +13,15 @@ public class ArticleEmbeddedResponseDto {
      */
     private Long id;
     private String title;
+    private Long views;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public ArticleEmbeddedResponseDto(Long id, String title, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
-        this.title = title;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    public ArticleEmbeddedResponseDto(Article article) {
+        this.id = article.getId();
+        this.title = article.getTitle();
+        this.views = article.getViews();
+        this.createdAt = article.getCreatedAt();
+        this.updatedAt = article.getUpdatedAt();
     }
 }
