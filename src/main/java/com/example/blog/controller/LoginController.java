@@ -1,6 +1,7 @@
 package com.example.blog.controller;
 
-import com.example.blog.model.dto.MemberDto;
+import com.example.blog.model.dto.member.MemberResponseDto;
+import com.example.blog.model.dto.member.MemberPostRequestDto;
 import com.example.blog.service.MemberService;
 import com.example.blog.utils.ApiResponse;
 import jakarta.validation.Valid;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.net.URI;
-
 @RestController
 @RequiredArgsConstructor
 public class LoginController {
@@ -19,9 +18,8 @@ public class LoginController {
     private final MemberService memberService;
 
     @PostMapping("/register")
-    ApiResponse<MemberDto> createMember(@Valid @RequestBody MemberDto dto) {
-        memberService.checkDuplication(dto);
-        MemberDto savedMemberDto = memberService.post(dto);
+    ApiResponse<MemberResponseDto> createMember(@Valid @RequestBody MemberPostRequestDto dto) {
+        MemberResponseDto savedMemberDto = memberService.post(dto);
         return ApiResponse.createSuccessResponse(savedMemberDto, HttpStatus.CREATED);
     }
 }

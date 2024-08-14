@@ -1,4 +1,4 @@
-package com.example.blog.model.dto;
+package com.example.blog.model.dto.comment;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -7,12 +7,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CommentPostRequestDto {
+public class CommentPatchRequestDto {
     @NotNull
     Long memberId;
-
-    @NotNull
-    Long articleId;
 
     @NotNull
     @NotBlank

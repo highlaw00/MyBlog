@@ -1,4 +1,4 @@
-package com.example.blog.model.dto;
+package com.example.blog.model.dto.article;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,8 +12,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ArticleDto {
+public class ArticlePostRequestDto {
     private Long id;
+
+    @NotNull
     private Long memberId;
 
     @NotNull(message = "제목은 없을 수 없습니다.")

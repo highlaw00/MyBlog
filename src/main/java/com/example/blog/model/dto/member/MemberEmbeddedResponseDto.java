@@ -1,4 +1,4 @@
-package com.example.blog.model.dto;
+package com.example.blog.model.dto.member;
 
 import lombok.Getter;
 import lombok.Setter;

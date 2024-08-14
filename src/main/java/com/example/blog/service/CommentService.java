@@ -1,9 +1,9 @@
 package com.example.blog.service;
 
 import com.example.blog.exception.CommentNotFoundException;
-import com.example.blog.model.dto.CommentPatchRequestDto;
-import com.example.blog.model.dto.CommentPostRequestDto;
-import com.example.blog.model.dto.CommentResponseDto;
+import com.example.blog.model.dto.comment.CommentPatchRequestDto;
+import com.example.blog.model.dto.comment.CommentPostRequestDto;
+import com.example.blog.model.dto.comment.CommentResponseDto;
 import com.example.blog.model.entity.Article;
 import com.example.blog.model.entity.Comment;
 import com.example.blog.model.entity.Member;

@@ -1,5 +1,7 @@
-package com.example.blog.model.dto;
+package com.example.blog.model.dto.comment;
 
+import com.example.blog.model.dto.member.MemberEmbeddedResponseDto;
+import com.example.blog.model.dto.article.ArticleEmbeddedResponseDto;
 import lombok.Getter;
 import lombok.Setter;
 
