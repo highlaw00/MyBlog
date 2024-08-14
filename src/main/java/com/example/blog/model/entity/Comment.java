@@ -1,7 +1,6 @@
 package com.example.blog.model.entity;
 
-import com.example.blog.model.dto.CommentPatchRequestDto;
-import com.example.blog.model.dto.CommentPostRequestDto;
+import com.example.blog.model.dto.comment.CommentPatchRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
