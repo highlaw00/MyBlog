@@ -1,17 +1,14 @@
 package com.example.blog.security;
 
-import com.example.blog.model.dto.LoginRequestDto;
-import com.example.blog.model.dto.LoginResponseDto;
+import com.example.blog.model.dto.login.LoginRequestDto;
+import com.example.blog.model.dto.login.LoginResponseDto;
 import com.example.blog.utils.ApiResponse;
 import com.example.blog.utils.jwt.JWTUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
